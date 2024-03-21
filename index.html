@@ -22,7 +22,7 @@
       padding: 40px;
       font-family: "arial", heletica, sans-serif;
       font-size: 24px;
-      background: white url('./grey_hexagons_on_black_background.jpg');
+      background: white url('./5961.jpg');
       /* background-color: black; */
       background-repeat: no-repeat;
       background-size: cover;
@@ -108,8 +108,8 @@
 
 
     .card-table th {
-      /* background-color: #d40055; */
-      color: black;
+      background-color: #323232;
+      color: white;
     }
 
     /* .card-table tbody td {} */
@@ -185,7 +185,7 @@
     .rate .label h4 {
       font-size: 40px;
       text-transform: uppercase;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid #fff;
     }
 
     .rate .data {
@@ -364,7 +364,7 @@
     }
 
     #clock {
-      font-family: Digital-7, 'sans-serif';
+      font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       font-size: 5em;
       text-shadow: 0px 0px 1px #fff;
       color: #fff;
@@ -372,7 +372,7 @@
 
     #clock span {
       color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0px 0px 1px #333;
+      text-shadow: 0px 0px 1px #323232;
       font-size: 60px;
       position: relative;
       top: -5px;
@@ -380,10 +380,9 @@
     }
 
     #date {
-      font-family: Digital-7, 'sans-serif';
+      font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       letter-spacing: 3px;
       font-size: 1.2em;
-      font-family: arial, sans-serif;
       color: #fff;
     }
   </style>
@@ -404,17 +403,16 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
-      </div>
+ 
     </div>
 
-    <div class="col-lg-5 rate">
-      <div class="label">
-        <h4>Spot Rate
-            <i class="fa-solid fa-dollar-sign" style="color: black; font-size: 40px;"></i>
+    <div class="col-lg-5 rate"  style="background-color: #323232;">
+      <div class="label mb-2 mt-2" >
+        <h4 style="color: #fff;">Spot Rate
+            <i class="fa-solid fa-dollar-sign" style="color: #fff; font-size: 40px;"></i>
         </h4>
       </div>
-      <div class="data">
+      <div class="data" style="background-color: #fff; padding: 20px;">
         <div class="column">
           <div class="head">
             <h3>Gold</h3>
@@ -520,19 +518,7 @@
       </div>
     </div>
 
-
-
-
-
-
-
-
-  </div>
-
-
-
-  <div class="row " style="margin-top: 10px;">
-    <div class="col-lg-12 news-card" style="margin-left: 0px; max-width: 97%;">
+    <div class="col-lg-12 news-card" style="margin-left: 0px; max-width: 97%;margin-top:-30px ;">
       <div class="col-lg-2 news-label">
         <h3></h3>
         <p>Latest News</p>
@@ -542,7 +528,11 @@
         <marquee behavior="scrolling" direction="left" id="displayNews">-</marquee>
       </div>
     </div>
+
   </div>
+
+
+
 
   <div class="rate-card">
     <div class="col-lg-3">
