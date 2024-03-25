@@ -348,11 +348,11 @@ async function showTable() {
             // Create a new table row
             const newRow = document.createElement("tr");
             newRow.innerHTML = `
-            <td style="text-align: right; font-size: clamp(40px, 2.5vw, 50px);" id="metalInput">Gold</td>
-            <td style="text-align: left; font-size:clamp(50px, 3vw, 60px); font-weight: 600;">${purityInput}</td>
-            <td style="font-size:clamp(40px, 2.5vw, 50px);">${unitInput} ${weightInput}</td>
-            <td id="buyAED" style="font-size:clamp(40px, 2.5vw, 50px);">0</td>
-            <td id="sellAED" style="font-size:clamp(40px, 2.5vw, 50px);">0</td>
+            <td style="text-align: right; font-size: clamp(30px, 2vw, 40px);" id="metalInput">Gold</td>
+            <td style="text-align: left; font-size:clamp(40px, 2.5vw, 50px); font-weight: 600;">${purityInput}</td>
+            <td style="font-size:clamp(30px, 2vw, 40px);">${unitInput} ${weightInput}</td>
+            <td id="buyAED" style="font-size:clamp(30px, 2vw, 40px);">0</td>
+            <td id="sellAED" style="font-size:clamp(30px, 2vw, 40px);">0</td>
             `;
 
             // Append the new row to the table body
