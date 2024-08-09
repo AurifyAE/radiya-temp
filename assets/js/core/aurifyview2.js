@@ -11,8 +11,21 @@ document.head.appendChild(script);
 // global.window = dom.window;
 // global.document = dom.window.document;
 
+const socket = io('https://test-server-9sbj.onrender.com', {
+    query: { secret: 'aurify@123' }, // Pass secret key as query parameter
+});
 
 const firestore = getFirestore(app)
+
+socket.on("connect", () => {
+    console.log("Connected to WebSocket server");
+    requestMarketData(["GOLD"]);
+});
+
+// Request market data based on symbols
+function requestMarketData(symbols) {
+    socket.emit("request-data", symbols);
+}
 
 setInterval(fetchData, 500);
 
@@ -23,25 +36,55 @@ setInterval(() => {
 showTable();
 
 
-let askSpread, bidSpread, goldValue, silverBidSpread, silverAskSpread, goldBuy, goldSell, silverBuy, silverSell, silverValue, goldHigh, goldLow;
+let askSpread, bidSpread, goldBiddingPrice, goldAskingPrice, silverBidSpread, silverAskSpread, goldBuy, goldSell, silverBuy, silverSell, silverValue, goldHigh, goldLow;
 
-const socket = io('https://meta-api-server.onrender.com');
+let goldData = {}
 
-function fetchData2() {
-    socket.on('goldValue', (goldValues) => {
-        // console.log('Received gold value:', goldValue);
-        const value = goldValues.bid;
-        goldHigh = goldValues.high;
-        goldLow = goldValues.low;
+// function fetchData2() {
+//     socket.on('goldValue', (goldValues) => {
+//         // console.log('Received gold value:', goldValue);
+//         const value = goldValues.bid;
+//         goldHigh = goldValues.high;
+//         goldLow = goldValues.low;
+//         goldBuy = (value + bidSpread).toFixed(2);
+//         goldSell = (value + askSpread + parseFloat(0.5)).toFixed(2);
+
+//         var GoldUSDResult = (value / 31.1035).toFixed(4);
+//         goldValue = (GoldUSDResult * 3.67).toFixed(4);
+//         // You can do something with the received gold value here, like updating UI
+//     });
+// }
+
+
+async function fetchData2() {
+    socket.on('market-data', (data) => {
+        console.log('Received gold value:', data);
+
+        if (data && data.symbol) {
+            if (data.symbol === "Gold") {
+                goldData = data;
+                // updateGoldUI();
+            }
+        } else {
+            console.warn("Received malformed market data:", data);
+        }
+
+
+        const value = goldData.bid;
+        goldHigh = goldData.high;
+        goldLow = goldData.low;
         goldBuy = (value + bidSpread).toFixed(2);
-        goldSell = (value + askSpread + parseFloat(0.5)).toFixed(2);
+        goldSell = (value + bidSpread + askSpread + parseFloat(0.5)).toFixed(2);
 
-        var GoldUSDResult = (value / 31.1035).toFixed(4);
-        goldValue = (GoldUSDResult * 3.67).toFixed(4);
-        // You can do something with the received gold value here, like updating UI
+
     });
-}
 
+    var goldBuyUSD = (goldBuy / 31.103).toFixed(4);
+    goldBiddingPrice = (goldBuyUSD * 3.674).toFixed(4);
+
+    var goldSellUSD = (goldSell / 31.103).toFixed(4);
+    goldAskingPrice = (goldSellUSD * 3.674).toFixed(4);
+}
 
 // Gold API KEY
 const API_KEY = 'goldapi-fbqpmirloto20zi-io'
@@ -388,12 +431,12 @@ async function showTable() {
 
                 if (weight === "GM") {
                     // Update the sellAED and buyAED values for the current 
-                    newRow.querySelector("#sellAED").innerText = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(2));
-                    newRow.querySelector("#buyAED").innerText = ((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(2);
+                    newRow.querySelector("#sellAED").innerText = parseFloat((goldAskingPrice * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(2));
+                    newRow.querySelector("#buyAED").innerText = (goldBiddingPrice * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(2);
                 } else {
                     // Update the sellAED and buyAED values for the current row
-                    const sellAEDValue = parseFloat(((parseFloat(goldValue) + parseFloat(askSpreadValue) + parseFloat(0.5)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
-                    const buyAEDValue = parseInt((parseFloat(goldValue) + parseFloat(bidSpreadValue)) * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(0);
+                    const sellAEDValue = parseFloat((goldAskingPrice * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(sellPremium)).toFixed(4));
+                    const buyAEDValue = parseInt(goldBiddingPrice * unitInput * unitMultiplier * (purityInput / Math.pow(10, purityInput.length)) + parseFloat(buyPremium)).toFixed(0);
 
                     newRow.querySelector("#sellAED").innerText = parseInt(sellAEDValue).toFixed(0); // Round to remove decimals
                     newRow.querySelector("#buyAED").innerText = parseInt(buyAEDValue).toFixed(0);   // Round to remove decimals
