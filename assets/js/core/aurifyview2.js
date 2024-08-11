@@ -11,7 +11,7 @@ document.head.appendChild(script);
 // global.window = dom.window;
 // global.document = dom.window.document;
 
-const socket = io('https://capital-server-9ebj.onrender.com/', {
+const socket = io('https://capital-server-9ebj.onrender.com', {
     query: { secret: 'aurify@123' }, // Pass secret key as query parameter
 });
 
